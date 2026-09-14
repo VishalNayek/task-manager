@@ -1,14 +1,1 @@
-[
-    {
-        "id": 1,
-        "title": "Learn AI",
-        "description": "Practice AI",
-        "completed": true
-    },
-    {
-        "id": 2,
-        "title": "Learn DSA",
-        "description": "Practice DSa",
-        "completed": false
-    }
-]
+[]

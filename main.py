@@ -18,8 +18,7 @@ def main():
         elif(choice=='5'):
             delete_tasks(tasks)
         elif(choice=='6'):
-            save_tasks(tasks)
-        elif(choice=='7'):
+            exit_app(tasks)
             print('Exited Task Manager.')
             break
         else:
@@ -32,9 +31,10 @@ def load_tasks():
     except json.JSONDecodeError:
         return []
 
-def save_tasks(tasks):
+def exit_app(tasks):
     with open("tasks.json", "w") as file:
         json.dump(tasks, file, indent=4)
+    print("Tasks saved successfully!")
 
 
 def display_menu():
@@ -46,8 +46,7 @@ def display_menu():
     print("3. Edit Task")
     print("4. Complete Task")
     print("5. Delete Task")
-    print("6. Save Task")
-    print("7. Exit Task Manager")
+    print("6. Exit Task Manager")
 
 
 def create_tasks(tasks):
