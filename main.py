@@ -10,7 +10,7 @@ def main():
         if(choice == '1'):
             create_tasks(tasks)
         elif(choice =='2'):
-            view_tasks(tasks)
+            view_tasks(tasks)         
         elif(choice=='3'):
             edit_tasks(tasks)
         elif(choice=='4'):
@@ -28,6 +28,8 @@ def load_tasks():
     try:
         with open("tasks.json", "r") as file:
             return json.load(file)
+    except FileNotFoundError:
+        return []
     except json.JSONDecodeError:
         return []
 
@@ -47,6 +49,12 @@ def display_menu():
     print("4. Complete Task")
     print("5. Delete Task")
     print("6. Exit Task Manager")
+
+def display_task_menu():
+    print("1. View All Tasks")
+    print("2. View Completed Tasks")
+    print("3. View Pending Tasks")
+
 
 
 def create_tasks(tasks):
@@ -71,13 +79,16 @@ def create_tasks(tasks):
 def view_tasks(tasks):
     if(tasks):
         for task in tasks:
-            if(task['completed'] == False):
-                status = 'Pending'
-            else:
-                status = 'Completed'
-            print(f"ID: {task['id']}, Title: {task['title']}, Description: {task['description']}, Status: {status}")
+            print_task(task)
     else:
         print('No tasks available.')
+
+def print_task(task):
+    status = "Completed"
+    if(task['completed']==False):
+        status = "Pending"
+    print(f"ID: {task['id']}, Title: {task['title']}, Description: {task['description']}, Status: {status}")
+
 
 def edit_tasks(tasks):
     if(tasks):
