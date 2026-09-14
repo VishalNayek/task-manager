@@ -1,5 +1,7 @@
+import json
+
 def main():
-    tasks = []
+    tasks = load_tasks()
     while True:
         display_menu()
 
@@ -16,10 +18,23 @@ def main():
         elif(choice=='5'):
             delete_tasks(tasks)
         elif(choice=='6'):
+            save_tasks(tasks)
+        elif(choice=='7'):
             print('Exited Task Manager.')
             break
         else:
             print('Invalid Choice')
+
+def load_tasks():
+    try:
+        with open("tasks.json", "r") as file:
+            return json.load(file)
+    except json.JSONDecodeError:
+        return []
+
+def save_tasks(tasks):
+    with open("tasks.json", "w") as file:
+        json.dump(tasks, file, indent=4)
 
 
 def display_menu():
@@ -31,7 +46,8 @@ def display_menu():
     print("3. Edit Task")
     print("4. Complete Task")
     print("5. Delete Task")
-    print("6. Exit Task Manager")
+    print("6. Save Task")
+    print("7. Exit Task Manager")
 
 
 def create_tasks(tasks):
@@ -53,7 +69,6 @@ def create_tasks(tasks):
     print("Task created successfully!")
 
 
-
 def view_tasks(tasks):
     if(tasks):
         for task in tasks:
@@ -67,17 +82,13 @@ def view_tasks(tasks):
 
 def edit_tasks(tasks):
     if(tasks):
-        taskFound = False
         try:
             inputId = int(input("Enter the Id of the task you want to edit: "))
-            for task in tasks:
-                if(task['id'] == inputId):
-                    task['title'] = input("Enter the new title: ")
-                    task['description'] = input("Enter the new description: ")
-                    taskFound = True
-                    print("Task has been updated.")
-                    break
-            if(taskFound == False):
+            task = find_task(tasks, inputId)
+            if task is not None:
+                task['title'] = input("Enter the new title: ")
+                task['description'] = input("Enter the new description: ")
+            else:
                 print(f"No task found with id {inputId}")
         except ValueError:
             print("Please enter an integer.")
@@ -86,40 +97,42 @@ def edit_tasks(tasks):
 
 def complete_task(tasks):
         if(tasks):
-            taskFound = False
-            inputId = int(input("Enter the Id of the task you want to complete: "))
-            for task in tasks:
-                if(task['id'] == inputId):
+            try:
+                inputId = int(input("Enter the Id of the task you want to complete: "))
+                task = find_task(tasks, inputId)
+                if task is not None:
                     if(task['completed'] == True):
-                        print("Task has already been completed.")
-                        taskFound = True
-                        break
+                        print("Task has already been completed")
                     else:
                         task['completed'] = True
-                        taskFound = True
                         print("Task has been completed.")
-                        break
-
-            if(taskFound == False):
-                print(f"No task found with id {inputId}")
+                else:
+                    print(f"No task found with id {inputId}")
+            except ValueError:
+                print("Please enter an integer.")
         else:
-            print("No tasks to complete.")
+            print("No tasks present to complete.")
 
 
 def delete_tasks(tasks):
     if(tasks):
-            taskFound = False
-            inputId = int(input("Enter the Id of the task you want to delete: "))
-            for task in tasks:
-                if(task['id'] == inputId):
+            try:
+                inputId = int(input("Enter the Id of the task you want to delete: "))
+                task = find_task(tasks, inputId)
+                if task is not None:
                     tasks.remove(task)
-                    taskFound = True
                     print("Task has been deleted.")
-                    break
-            if(taskFound == False):
-                print(f"No task found with id {inputId}")
+                else:
+                    print(f"No task found with id {inputId}")
+            except ValueError:
+                print("Please enter an integer.")
     else:
         print("No tasks to delete.")
 
+def find_task(tasks, inputId):
+    for task in tasks:
+        if(task['id'] == inputId):
+            return task
+    return None
 
 main()
