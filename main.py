@@ -16,6 +16,8 @@ def main():
         elif(choice=='5'):
             print('Exited Task Manager.')
             break
+        else:
+            print('Invalid Choice')
 
 
 def display_menu():
@@ -30,14 +32,16 @@ def display_menu():
 
 
 def create_tasks(tasks):
+    highest_id = 0
     if(tasks):
-        getId = len(tasks) + 1
-    else:
-        getId = 1
+        for task in tasks:
+            if(task['id']> highest_id):
+                highest_id = task['id']
+
     title = input("Enter the title of the task: ")
     description = input("Enter the description of the task: ")
     new_task = {
-        "id": getId,
+        "id": highest_id+1,
         "title": title,
         "description": description,
         "completed": False
