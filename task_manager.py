@@ -12,6 +12,7 @@ class TaskManager:
             next_id = max(next_id, task.id)
         task = Task(next_id+1, title, description)
         self.tasks.append(task)
+        return task
 
     def view_tasks(self):
         if (self.tasks):

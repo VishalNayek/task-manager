@@ -16,5 +16,11 @@
         "title": "Learn Git",
         "description": "Practice Git",
         "completed": false
+    },
+    {
+        "id": 4,
+        "title": "Learn RAG",
+        "description": "Read Documentations",
+        "completed": false
     }
 ]
