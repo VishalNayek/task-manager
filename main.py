@@ -1,4 +1,4 @@
-from TaskManager import TaskManager
+from task_manager import TaskManager
 
 def main():
     manager = TaskManager()
