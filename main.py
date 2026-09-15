@@ -1,3 +1,5 @@
+##This Task Manager is created without OOP Concepts
+
 import json
 
 def main():
@@ -49,11 +51,6 @@ def display_menu():
     print("4. Complete Task")
     print("5. Delete Task")
     print("6. Exit Task Manager")
-
-def display_task_menu():
-    print("1. View All Tasks")
-    print("2. View Completed Tasks")
-    print("3. View Pending Tasks")
 
 
 
