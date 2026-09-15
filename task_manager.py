@@ -3,8 +3,9 @@ import json
 from task import Task
 
 class TaskManager:
-    def __init__(self):
+    def __init__(self, filename="tasks.json"):
         self.tasks = []
+        self.filename = filename
 
     def add_task(self, title, description):
         next_id=0
@@ -52,12 +53,13 @@ class TaskManager:
         task_list = []
         for task in self.tasks:
             task_list.append(task.to_dict())
-        with open("tasks.json", "w") as file:
+        with open(self.filename, "w") as file:
             json.dump(task_list, file, indent=4)
 
     def load_tasks(self):
+        self.tasks = []
         try:
-            with open("tasks.json", "r") as file:
+            with open(self.filename, "r") as file:
                 task_list =  json.load(file)
                 for task in task_list:
                     self.tasks.append(Task.from_dict(task))
